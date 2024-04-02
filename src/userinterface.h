@@ -1,24 +1,51 @@
+
+#ifndef USERINTERFACE_H
+#define USERINTERFACE_H
+
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <SPI.h>
-#include "Adafruit_HX8357.h"
-#include "TouchScreen.h"
+#include <Adafruit_HX8357.h>
+#include <TouchScreen.h>
+#include "definitions/hwdefs.h"
+#include "definitions/colordefs.h"
 
-// These are the four touchscreen analog pins
-#define YP A2  // must be an analog pin, use "An" notation!
-#define XM A3  // must be an analog pin, use "An" notation!
-#define YM A4  // can be a digital pin
-#define XP A5  // can be a digital pin
 
-// This is calibration data for the raw touch data to the screen coordinates
-#define TS_MINX 110
-#define TS_MINY 80
-#define TS_MAXX 900
-#define TS_MAXY 940
+/**
+ * Some definitions for the UI.
+ * Mostly used to dynamically scale things.
+*/
 
-#define MINPRESSURE 10
-#define MAXPRESSURE 1000
+#define HEADING_SIZE 5  //Heading Size
+#define TEXT_SIZE 3     //Standard Text Size
+#define STAT_TEXT_SIZE 2    //Status Text Size, use TBD.
 
-// The display uses hardware SPI, plus #9 & #10
-#define TFT_RST -1  // dont use a reset pin, tie to arduino RST if you like
-#define TFT_DC 9
-#define TFT_CS 10
+class userinterface{
+    public:
+    userinterface();
+    
+    void screenInit();
+
+    void probeTouch();
+
+    bool isTouching();
+
+    void displayMenu();
+
+    void dispMonStatus();
+
+    protected:
+    Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
+    TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+    TSPoint tp;
+    uint16_t textColor, backgroundColor, statusText;
+    
+    String tempReading = "";
+};
+
+
+
+
+
+
+
+#endif
