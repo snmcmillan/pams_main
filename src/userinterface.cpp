@@ -2,21 +2,36 @@
 
 
 userinterface::userinterface(){
-    tp = ts.getPoint();
-    tp.x = map(tp.x, TS_MINX, TS_MAXX, 0, tft.width());
-    tp.y = map(tp.y, TS_MINY, TS_MAXY, 0, tft.height());
+    probeTouch();
 }
 
 void userinterface::screenInit(){
-    tft.begin();
+    #if SPI_MODE == 1
+        tft.begin();
+    #else
+        tft.reset();
+        tft.begin(0x8357);
+        pinMode(13, OUTPUT);
+    #endif
+
+    tft.cp437(true);
     tft.setRotation(1);
-    tft.fillScreen(BG_COLOR);
+    tft.fillScreen(backgroundColor);
 }
 
 void userinterface::probeTouch(){
-    tp = ts.getPoint();
-    tp.x = map(tp.x, TS_MINX, TS_MAXX, 0, tft.width());
-    tp.y = map(tp.y, TS_MINY, TS_MAXY, 0, tft.height());
+    #if SPI_MODE == 1
+        tp = ts.getPoint();
+    #else
+        digitalWrite(13, HIGH);
+        tp = ts.getPoint();
+        digitalWrite(13, LOW);
+        pinMode(XM, OUTPUT);
+        pinMode(YP, OUTPUT);
+    #endif
+        tp.x = map(tp.x, TS_MINX, TS_MAXX, 0, tft.width());
+        tp.y = map(tp.y, TS_MINY, TS_MAXY, 0, tft.height());
+
 }
 
 bool userinterface::isTouching(){
@@ -25,36 +40,33 @@ bool userinterface::isTouching(){
     else return false;
 }
 
+void userinterface::toggleDarkMode(){
+    uint16_t tmp = backgroundColor;
+    backgroundColor = textColor;
+    textColor = tmp;
+    tft.fillScreen(backgroundColor);
+}
+
 void userinterface::displayMenu(){
     #if MULTIMON == 0
-        dispMonStatus();
+        dispMonStatus(mon1);
+    #else
     #endif
 }
 
-void userinterface::dispMonStatus(){
+void userinterface::dispMonStatus(mon monSelected){
     probeTouch();
     if(tp.z > 0){
         if(tp.x > 240){
-            if(backgroundColor == WHITE)
-                tft.fillScreen(BLACK);
-            textColor = WHITE;
-            backgroundColor = BLACK;
+            toggleDarkMode();
         }
         if(tp.y > 160){
             statusText = TXT_COLOR_CRIT;
-            tempReading = "420*C";
         }
     }
-       
-    if(tp.z == 0 || (tp.x <= 240 && tp.y <= 160)) {
-            if(backgroundColor == BLACK)
-                tft.fillScreen(WHITE);
-            textColor = BLACK;
-            backgroundColor = WHITE;
-            statusText = TXT_COLOR_GOOD;
-            tempReading = "69*C ";
-    }
     
+    monSelected.updateMon();  
+
 
     tft.setTextSize(HEADING_SIZE);
     tft.setCursor(1,1);
@@ -62,11 +74,42 @@ void userinterface::dispMonStatus(){
     tft.print("Monitor 1");
 
     tft.setTextSize(TEXT_SIZE);
-    tft.setCursor(1,(HEADING_SIZE*8) + 2);
+    tft.setCursor(1,(HEADING_SIZE*8) + 4);
     tft.setTextColor(textColor, backgroundColor);
     tft.print("Temperature: ");
     tft.setTextColor(statusText, backgroundColor);
-    tft.println(tempReading);
+    tft.print(monSelected.getTemperature());
+    tft.write(0xF8);
+    tft.println("C  ");
+
+    //tft.setCursor(1,tft.getCursorY() + 1);
+    tft.setTextColor(textColor, backgroundColor);
+    tft.print("Supply Current: ");
+    tft.setTextColor(statusText, backgroundColor);
+    tft.print(monSelected.getCurrent());
+    tft.println(" A  ");
+
+    //tft.setCursor(1,tft.getCursorY() + 1);
+    tft.setTextColor(textColor, backgroundColor);
+    tft.print("Signal Power: ");
+    tft.setTextColor(statusText, backgroundColor);
+    tft.print(monSelected.getSigPwr());
+    tft.println(" dBm  ");
+
+    //tft.setCursor(1,tft.getCursorY() + 1);
+    tft.setTextColor(textColor, backgroundColor);
+    tft.print("Forward Power: ");
+    tft.setTextColor(statusText, backgroundColor);
+    tft.print(monSelected.getFwPwr());
+    tft.println(" dBm ");
+
+    //tft.setCursor(1,tft.getCursorY() + 1);
+    tft.setTextColor(textColor, backgroundColor);
+    tft.print("Reflected Power: ");
+    tft.setTextColor(statusText, backgroundColor);
+    tft.print(monSelected.getRflPwr());
+    tft.println(" dBm ");
+    
 
 
 }

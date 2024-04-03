@@ -34,6 +34,7 @@
  * UI Colors
  * 
  * Don't changes these unless you *really* need a special color palette.
+ * Also, don't mutilate the logic for dark mode. I'll fight you.
 */
 
 #define BG_COLOR WHITE
