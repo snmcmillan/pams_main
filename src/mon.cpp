@@ -11,6 +11,7 @@ mon::mon(){
 
 void mon::updateMon(){
     #if DEMO == 1
+        monName = "Testy Mon";
         temperature = (float) (rand()%10000) / 100;
         current = (float) (rand()%1000) / 100;
         forwardPower = (float) (rand()%1000) / 100;

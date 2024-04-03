@@ -6,7 +6,7 @@
 
 class mon{
     public:
-    #if MULTIMON == 0
+    #if DEMO == 1
         mon();
     #else
         mon(int rx, int tx){
@@ -14,7 +14,7 @@ class mon{
             TX = tx;
         }
     #endif
-    void updateMon(); //
+    void updateMon();
 
     //Getters
     int getErrorCode(){
@@ -60,9 +60,10 @@ class mon{
     int errCode = 0;
     
     String monName = "";
-
-    int RX = -1;
-    int TX = -1;
+    #if DEMO == 0
+        int RX = -1;
+        int TX = -1;
+    #endif
 
 };
 #endif

@@ -51,6 +51,21 @@ void userinterface::displayMenu(){
     #if MULTIMON == 0
         dispMonStatus(mon1);
     #else
+        uint16_t tmp = RED;
+        textColor = BLACK;
+        backgroundColor = RED;
+        tft.fillScreen(BLACK);
+        tft.setTextSize(5);
+        tft.setTextWrap(1);
+        while(true){
+            tmp = textColor;
+            textColor = backgroundColor;
+            backgroundColor = tmp;
+            tft.setCursor(1, 1);
+            tft.setTextColor(textColor, backgroundColor);
+            tft.println("I TOLD YOU THIS WILL NOT WORK! YOU DARE TO DEFY ME? YOU DARE TO FIGHT ME?");
+            delay(1000);
+        }
     #endif
 }
 
@@ -71,7 +86,7 @@ void userinterface::dispMonStatus(mon monSelected){
     tft.setTextSize(HEADING_SIZE);
     tft.setCursor(1,1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.print("Monitor 1");
+    tft.print(monSelected.getMonName());
 
     tft.setTextSize(TEXT_SIZE);
     tft.setCursor(1,(HEADING_SIZE*8) + 4);

@@ -17,6 +17,7 @@
 /**
  * Some definitions for the UI.
  * Mostly used to dynamically scale things.
+ * These are temporary, expect these to be removed at some point.
 */
 
 #define HEADING_SIZE 5  //Heading Size

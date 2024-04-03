@@ -11,6 +11,9 @@
  * TLDR: Red has 5 bits, green has 6 bits, blue has 5 bits. That site also has a color picker that produces RGB565 colors.
 */
 
+#ifndef COLORDEFS_H
+#define COLORDEFS_H
+
 //Defining our color palette here. If you need more than this, add onto here.
 #define BLACK 0x0000
 #define BLUE 0x001F
@@ -22,7 +25,7 @@
 #define WHITE 0xFFFF
 #define ORANGE 0xFC80
 #define LIGHT_GREY 0xD6BA
-#define LIGHT_GRAY 0xD6BA //I sadly need to ensure the inferior spelling is defined.
+#define LIGHT_GRAY 0xD6BA //I sadly need to ensure the inferior spelling is defined, because we all know someone will do it.
 
 /**
  * UI Modes
@@ -43,3 +46,5 @@
 #define TXT_COLOR_CRIT RED
 #define TXT_COLOR_WARN ORANGE
 #define TXT_COLOR_GOOD GREEN
+
+#endif
