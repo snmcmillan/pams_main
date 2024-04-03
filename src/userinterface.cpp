@@ -71,7 +71,7 @@ void userinterface::displayMenu(){
 
 void userinterface::dispMonStatus(mon monSelected){
     probeTouch();
-    if(tp.z > 0){
+    if(isTouching()){
         if(tp.x > 240){
             toggleDarkMode();
         }
@@ -81,7 +81,6 @@ void userinterface::dispMonStatus(mon monSelected){
     }
     
     monSelected.updateMon();  
-
 
     tft.setTextSize(HEADING_SIZE);
     tft.setCursor(1,1);
@@ -124,7 +123,5 @@ void userinterface::dispMonStatus(mon monSelected){
     tft.setTextColor(statusText, backgroundColor);
     tft.print(monSelected.getRflPwr());
     tft.println(" dBm ");
-    
-
 
 }

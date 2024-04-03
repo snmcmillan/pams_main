@@ -3,8 +3,6 @@
     #include<time.h>
 #endif
 
-
-
 mon::mon(){
 
 }

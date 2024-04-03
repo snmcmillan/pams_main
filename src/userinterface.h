@@ -55,20 +55,19 @@ class userinterface{
             statusTextWarn = TXT_COLOR_WARN,
             statusTextCrit = TXT_COLOR_CRIT,
             statusText;
-
-    #if MULTIMON == 1
+    #if DEMO == 1
         mon mon1 = mon();
-        mon mon2 = mon();
-        mon mon3 = mon();
+        #if MULTIMON == 1
+            mon mon2 = mon();
+            mon mon3 = mon();
+        #endif
     #else
-        mon mon1 = mon();
+        mon mon1 = mon(MON1_RX, MON1_TX);
+        #if MULTIMON == 1
+            mon mon2 = mon(MON2_RX, MON2_TX);
+            mon mon3 = mon(MON3_RX, MON3_TX);
+        #endif
     #endif
 };
-
-
-
-
-
-
 
 #endif
