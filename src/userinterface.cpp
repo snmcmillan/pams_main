@@ -63,24 +63,16 @@ void userinterface::displayMenu(){
             backgroundColor = tmp;
             tft.setCursor(1, 1);
             tft.setTextColor(textColor, backgroundColor);
-            tft.println("I TOLD YOU THIS WILL NOT WORK! YOU DARE TO DEFY ME? YOU DARE TO FIGHT ME?");
-            delay(1000);
+            tft.println("I TOLD YOU THIS WILL NOT WORK! \nYOU DARE TO DEFY ME? \nYOU DARE TO FIGHT ME?");
+            delay(100);
         }
     #endif
 }
 
 void userinterface::dispMonStatus(mon monSelected){
-    probeTouch();
-    if(isTouching()){
-        if(tp.x > 240){
-            toggleDarkMode();
-        }
-        if(tp.y > 160){
-            statusText = TXT_COLOR_CRIT;
-        }
-    }
-    
-    monSelected.updateMon();  
+    bool exit = false;
+
+    monSelected.updateMon();
 
     tft.setTextSize(HEADING_SIZE);
     tft.setCursor(1,1);
@@ -90,38 +82,59 @@ void userinterface::dispMonStatus(mon monSelected){
     tft.setTextSize(TEXT_SIZE);
     tft.setCursor(1,(HEADING_SIZE*8) + 4);
     tft.setTextColor(textColor, backgroundColor);
-    tft.print("Temperature: ");
-    tft.setTextColor(statusText, backgroundColor);
-    tft.print(monSelected.getTemperature());
-    tft.write(0xF8);
-    tft.println("C  ");
+    tft.println("Temperature:"); //Length = 13
+    
+    //tft.setCursor(1,tft.getCursorY() + 1);
+    tft.setTextColor(textColor, backgroundColor);
+    tft.println("Supply Current: ");
+    
 
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.print("Supply Current: ");
-    tft.setTextColor(statusText, backgroundColor);
-    tft.print(monSelected.getCurrent());
-    tft.println(" A  ");
+    tft.println("Signal Power: ");
 
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.print("Signal Power: ");
-    tft.setTextColor(statusText, backgroundColor);
-    tft.print(monSelected.getSigPwr());
-    tft.println(" dBm  ");
-
+    tft.println("Forward Power: ");
+    
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.print("Forward Power: ");
-    tft.setTextColor(statusText, backgroundColor);
-    tft.print(monSelected.getFwPwr());
-    tft.println(" dBm ");
+    tft.println("Reflected Power: ");
+    
+    while(exit == false){
+        monSelected.updateMon();  
+        tft.setCursor(13*TEXT_SIZE*6, (8*HEADING_SIZE) + 4);
+        tft.setTextColor(textColor, backgroundColor);
+        tft.print(monSelected.getTemperature());
+        tft.write(0xF8);
+        tft.println("C  ");
 
-    //tft.setCursor(1,tft.getCursorY() + 1);
-    tft.setTextColor(textColor, backgroundColor);
-    tft.print("Reflected Power: ");
-    tft.setTextColor(statusText, backgroundColor);
-    tft.print(monSelected.getRflPwr());
-    tft.println(" dBm ");
+        tft.setCursor(16*TEXT_SIZE*6 + 1, tft.getCursorY());
+        tft.setTextColor(textColor, backgroundColor);
+        tft.print(monSelected.getCurrent());
+        tft.println(" A  ");
 
+        tft.setCursor(15*TEXT_SIZE*6 + 1, tft.getCursorY());
+        tft.setTextColor(textColor, backgroundColor);
+        tft.print(monSelected.getSigPwr());
+        tft.println(" dBm  ");
+
+        tft.setCursor(15*TEXT_SIZE*6 + 1, tft.getCursorY());
+        tft.setTextColor(textColor, backgroundColor);
+        tft.print(monSelected.getFwPwr());
+        tft.println(" dBm  ");
+
+        tft.setCursor(17*TEXT_SIZE*6 + 1, tft.getCursorY());
+        tft.setTextColor(textColor, backgroundColor);
+        tft.print(monSelected.getRflPwr());
+        tft.println(" dBm  ");
+
+        probeTouch();
+        if(isTouching()){
+            if(tp.x > 240){
+                toggleDarkMode();
+                exit = true;
+            }
+        }
+    }
 }
