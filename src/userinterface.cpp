@@ -6,7 +6,6 @@ userinterface::userinterface(){
 }
 
 void userinterface::screenInit(){
-    Serial.println("Begin Mon Init!");
     #if SPI_MODE == 1
         tft.begin();
     #else

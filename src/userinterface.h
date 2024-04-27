@@ -3,6 +3,7 @@
 #define USERINTERFACE_H
 #include "definitions/hwdefs.h"
 #include "definitions/colordefs.h"
+#include "definitions/text.h"
 
 #include <Adafruit_GFX.h>    // Core graphics library
 #if SPI_MODE == 1

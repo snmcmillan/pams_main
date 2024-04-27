@@ -26,7 +26,7 @@ void mon::updateMon(){
         forwardPowerState = monSerial.parseInt();
         reflectedPowerState = monSerial.parseInt();
 
-        if(!temperatureState || !currentState || !signalPowerState || !forwardPowerState || !reflectedPowerState)
+        if(temperatureState || currentState || signalPowerState || forwardPowerState || reflectedPowerState)
             errState = true;
         else
             errState = false;
