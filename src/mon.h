@@ -2,10 +2,8 @@
 #define MON_H
 
 #include "definitions/hwdefs.h"
-#include <WString.h>
 #if DEMO == 0
     #include <SoftwareSerial.h>
-    #include <wiring_private.h>
 #endif
 class mon{
     public:
@@ -15,10 +13,14 @@ class mon{
             
         };
     #else
-        mon(int rx, int tx):monSerial{SoftwareSerial(rx, tx)}{  
-        };
+        mon(int rx, int tx):monSerial{SoftwareSerial(rx, tx)}{};
     #endif
-    void updateMon();
+
+    void monInit(); //Initializes the monitor communications
+    void updateMon(); //Fetches new data
+    void acknowledgeMon(int code); //Sends a status code to the monitor
+    void waitForMon(); //Waits for any data to appear from the monitor
+    void waitForMon(int code); //Waits for the monitor to send a status code
 
     //Getters
     bool getErrorState(){return errState;};
@@ -29,17 +31,26 @@ class mon{
     float getSigPwr(){return signalPower;};
     String getMonName(){return monName;};
 
-    void monInit();
-    void acknowledgeMon(int code);
-    void waitForMon(int code);
+    
     
     private:
+    //These are the sensor data readings.
     float temperature = 0;
     float current = 0;
     float signalPower = 0;
     float forwardPower = 0;
     float reflectedPower = 0;
-    
+
+    /**
+     * Thresholds
+     * Upper and lower thresholds for each measurement. These are the critical points.
+    */
+    float tempUpper = 0, tempLower = 0;
+    float currentUpper = 0, currentLower = 0;
+    float sigUpper = 0, sigLower = 0;
+    float forUpper = 0, forLower = 0;
+    float refUpper = 0, refLower = 0;
+
 
     /**
      * State Codes
@@ -60,7 +71,7 @@ class mon{
     
     String monName = "";
     #if DEMO == 0
-        //int RX, TX;
+        //If we are running in head unitproduction mode, the serial interface is created.
         SoftwareSerial monSerial; 
     #endif
 

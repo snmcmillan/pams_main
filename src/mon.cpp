@@ -14,7 +14,7 @@ void mon::updateMon(){
     #else
         monSerial.listen();
         acknowledgeMon(23);
-        while(monSerial.available() == 0){}
+        waitForMon();
         temperature = monSerial.parseFloat();
         current = monSerial.parseFloat();
         signalPower = monSerial.parseFloat();
@@ -34,10 +34,14 @@ void mon::updateMon(){
     #endif
 }
 
+/**
+ * monInit: Initializes the serial interface to the monitor.
+ * 
+ * The monitor sends its name to the head unit, 
+ * along with its critical thresholds.
+*/
+
 void mon::monInit(){
-    pinMode(MON1_RX, INPUT);
-    pinMode(MON1_TX, OUTPUT);
-    Serial.begin(9600);
     monSerial.begin(BAUD_RATE);
     monSerial.listen();
     acknowledgeMon(10);
@@ -46,11 +50,29 @@ void mon::monInit(){
     acknowledgeMon(20);
 }
 
-void mon::waitForMon(int code){
-  while(monSerial.read() != code){}
-  monSerial.read();
+/**
+ * waitForMon: Waits for any data to be sent from the monitor.
+ * 
+ * This variant does not discard any data. 
+ * Once any data is read, execution continues.
+*/
+void mon::waitForMon(){
+    while(monSerial.peek() == -1){}
 }
 
+/**
+ * waitForMon: Waits for the monitor to send the supplied code.
+ * 
+ * This variant discards all data until the specified code is read.
+ * Once the code is read, it is also discarded.
+*/
+void mon::waitForMon(int code){
+  while(monSerial.read() != code){}
+}
+
+/**
+ * acknowledgeMon: Sends a supplied status code to the monitor.
+*/
 void mon::acknowledgeMon(int code){
   monSerial.write(code);
 }
