@@ -3,9 +3,10 @@
     #include<time.h>
 #endif
 
-userinterface ui = userinterface();
+userinterface ui;
 
 void setup(){
+    ui = userinterface();
     ui.screenInit();
     #if DEMO == 1
         srand(time(NULL));

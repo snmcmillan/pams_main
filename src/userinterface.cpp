@@ -6,6 +6,7 @@ userinterface::userinterface(){
 }
 
 void userinterface::screenInit(){
+    Serial.println("Begin Mon Init!");
     #if SPI_MODE == 1
         tft.begin();
     #else
@@ -13,9 +14,11 @@ void userinterface::screenInit(){
         tft.begin(0x8357);
         pinMode(13, OUTPUT);
     #endif
-
+    mon1.monInit();
     tft.cp437(true);
     tft.setRotation(1);
+    tft.fillScreen(RED);
+    tft.fillScreen(GREEN);
     tft.fillScreen(backgroundColor);
 }
 
@@ -72,8 +75,6 @@ void userinterface::displayMenu(){
 void userinterface::dispMonStatus(mon monSelected){
     bool exit = false;
 
-    monSelected.updateMon();
-
     tft.setTextSize(HEADING_SIZE);
     tft.setCursor(1,1);
     tft.setTextColor(textColor, backgroundColor);
@@ -102,7 +103,8 @@ void userinterface::dispMonStatus(mon monSelected){
     tft.println("Reflected Power: ");
     
     while(exit == false){
-        monSelected.updateMon();  
+        monSelected.updateMon();
+
         tft.setCursor(13*TEXT_SIZE*6, (8*HEADING_SIZE) + 4);
         tft.setTextColor(textColor, backgroundColor);
         tft.print(monSelected.getTemperature());

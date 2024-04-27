@@ -1,6 +1,6 @@
 /**
  * @author Sebastian McMillan
- * @brief Hardware Config Definitions
+ * @brief Hardware Config Definitions±
 */
 
 #ifndef HWDEFS_H
@@ -72,14 +72,14 @@
  * These settings define our RX and TX pins for each monitor, as well as the baud rate
 */
 
-#define MON1_RX -1
-#define MON1_TX -1
-#define MON1_BAUD 115200
+#define MON1_RX 6
+#define MON1_TX 7
+#define BAUD_RATE 9600
 #if MULTIMON == 1
-    #define MON2_RX -1
-    #define MON2_TX -1
-    #define MON3_RX -1
-    #define MON3_TX -1
+    #define MON2_RX 4
+    #define MON2_TX 5
+    #define MON3_RX 2
+    #define MON3_TX 3
 #endif
 /**
  * Development Features
@@ -98,7 +98,7 @@
  * 1: The head unit will display simulated data from a simulated monitoring unit.
  *    If any monitoring units are connected in this mode, they will be ignored.
 */
-#define DEMO 1
+#define DEMO 0
 
 /**
  * MULTIMON - Enables Multi-Monitor Support
