@@ -1,4 +1,5 @@
 /**
+ * @file hwdefs.h
  * @author Sebastian McMillan
  * @brief Hardware Config Definitions±
 */
@@ -74,46 +75,26 @@
 
 #define MON1_RX 6
 #define MON1_TX 7
+#define MON2_RX 4 //Only used if MON_COUNT == 2 or 3
+#define MON2_TX 5 //Only used if MON_COUNT == 2 or 3
+#define MON3_RX 2 //Only used if MON_COUNT == 3
+#define MON3_TX 3 //Only used if MON_COUNT == 3
+
 #define BAUD_RATE 9600
-#if MULTIMON == 1
-    #define MON2_RX 4
-    #define MON2_TX 5
-    #define MON3_RX 2
-    #define MON3_TX 3
-#endif
-/**
- * Development Features
- * 
- * These features are here for development purposes, if you do not know what you are doing, do NOT touch these.
-*/
 
 /**
- * DEMO - Enables DEMO Mode
+ * Monitor Count
  * 
- * Valid Values: 0 or 1
+ * Specifies the number of monitors we want to use.
  * 
- * 0: The head unit expects the monitoring unit to be present, 
- *    and will display data collected from the monitoring unit.
+ * Setting to 1 disables the system overview screen.
  * 
- * 1: The head unit will display simulated data from a simulated monitoring unit.
- *    If any monitoring units are connected in this mode, they will be ignored.
+ * We support 1, 2, or 3 monitors, and if at runtime a monitor is missing, 
+ * the program will crash until I implement a handler for that.
+ * 
+ * Setting a value of 0 will cause problems at compile time, and setting a value above 3
+ * will break program logic.
 */
-#define DEMO 0
-
-/**
- * MULTIMON - Enables Multi-Monitor Support
- * 
- * Valid Values: 0 or 1
- * 
- * 0: The head unit will only check for mon1 and will only display mon1's data.
- *    Any other monitoring unit will be ignored, and the UI will run in single monitor mode.
- * 
- * 1: The head unit supports up to 3 monitoring units to be displayed at one time.
- * 
- * NOTE: Only MULTIMON = 0 is implemented at this time. Setting to 1 will result in a nonfunctional head unit.
- * This toggle is only present for potential future features.
-*/
-
-#define MULTIMON 0
+#define MON_COUNT 1
 
 #endif

@@ -50,7 +50,7 @@ void userinterface::toggleDarkMode(){
 }
 
 void userinterface::displayMenu(){
-    #if MULTIMON == 0
+    #if MON_COUNT == 1
         dispMonStatus(mon1);
     #else
         uint16_t tmp = RED;

@@ -2,6 +2,11 @@
 #define MON_H
 
 #include "defs/hwdefs.h"
+#include "defs/swdefs.h"
+
+#if DEBUG == 1
+    #include <HardwareSerial.h>
+#endif
 
 #if DEMO == 0
     #include <SoftwareSerial.h>

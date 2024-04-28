@@ -2,6 +2,7 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 #include "defs/hwdefs.h"
+#include "defs/swdefs.h"
 #include "defs/colordefs.h"
 #include "defs/text.h"
 
@@ -58,15 +59,19 @@ class userinterface{
             statusText;
     #if DEMO == 1
         mon mon1 = mon();
-        #if MULTIMON == 1
+        #if MON_COUNT == 2
             mon mon2 = mon();
-            mon mon3 = mon();
+            #if MON_COUNT == 3
+                mon mon3 = mon();
+            #endif
         #endif
     #else
         mon mon1 = mon(MON1_RX, MON1_TX);
-        #if MULTIMON == 1
+        #if MON_COUNT == 2
             mon mon2 = mon(MON2_RX, MON2_TX);
-            mon mon3 = mon(MON3_RX, MON3_TX);
+            #if MON_COUNT == 3
+                mon mon3 = mon(MON3_RX, MON3_TX);
+            #endif
         #endif
     #endif
 };
