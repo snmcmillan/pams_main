@@ -82,24 +82,24 @@ void userinterface::dispMonStatus(mon monSelected){
     tft.setTextSize(TEXT_SIZE);
     tft.setCursor(1,(HEADING_SIZE*8) + 4);
     tft.setTextColor(textColor, backgroundColor);
-    tft.println("Temperature:"); //Length = 13
+    tft.println(SCREEN_TEMPERATURE); //Length = 13
     
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.println("Supply Current: ");
+    tft.println(SCREEN_CURRENT);
     
 
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.println("Signal Power: ");
+    tft.println(SCREEN_SIGNAL_PWR);
 
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.println("Forward Power: ");
+    tft.println(SCREEN_FOR_PWR);
     
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.println("Reflected Power: ");
+    tft.println(SCREEN_REF_PWR);
     
     while(exit == false){
         monSelected.updateMon();
