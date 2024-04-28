@@ -17,35 +17,24 @@ void mon::updateMon(){
         waitForMon();
         temperature = monSerial.parseFloat();
         current = monSerial.parseFloat();
-        signalPower = monSerial.parseFloat();
-        forwardPower = monSerial.parseFloat();
-        reflectedPower = monSerial.parseFloat();
-        temperatureState = monSerial.parseInt();
-        currentState = monSerial.parseInt();
-        signalPowerState = monSerial.parseInt();
-        forwardPowerState = monSerial.parseInt();
-        reflectedPowerState = monSerial.parseInt();
-
-        if(temperatureState || currentState || signalPowerState || forwardPowerState || reflectedPowerState)
-            errState = true;
-        else
-            errState = false;
-        
+        inputPower = monSerial.parseFloat();
+        outputPower = monSerial.parseFloat();
+        VSWR = monSerial.parseFloat();
     #endif
 }
 
 /**
  * monInit: Initializes the serial interface to the monitor.
  * 
- * The monitor sends its name to the head unit, 
- * along with its critical thresholds.
+ * The monitor sends its name to the head unit.
 */
 
 void mon::monInit(){
     monSerial.begin(BAUD_RATE);
     monSerial.listen();
-    acknowledgeMon(10);
-    while(monSerial.available() == 0){}
+    while(monSerial.available() == 0){
+        acknowledgeMon(10);
+    }
     monName = monSerial.readStringUntil('\n');
     acknowledgeMon(20);
 }

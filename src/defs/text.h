@@ -25,9 +25,9 @@
 
 #define SCREEN_TEMPERATURE "Temperature: "
 #define SCREEN_CURRENT "Supply Current: "
-#define SCREEN_SIGNAL_PWR "Signal Power: "
-#define SCREEN_FOR_PWR "Forward Power: "
-#define SCREEN_REF_PWR "Reflected Power: "
+#define SCREEN_SIGNAL_PWR "Input Power: "
+#define SCREEN_FOR_PWR "Output Power: "
+#define SCREEN_VSWR "VSWR: "
 
 //Status Text
 
@@ -57,7 +57,5 @@
 //Signal Power Readings
 
 #define STATUS_SIGNAL_HIGH "Input signal power is too high!"
-#define STATUS_SIGNAL_LOW "Input signal power is too low!"
 
-#define STATUS_FORWARD_HIGH "Output forward power is too high!"
-#define STATUS_FORWARD_LOW "Output forward power is too low!"
+

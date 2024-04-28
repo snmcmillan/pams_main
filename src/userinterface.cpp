@@ -99,7 +99,7 @@ void userinterface::dispMonStatus(mon monSelected){
     
     //tft.setCursor(1,tft.getCursorY() + 1);
     tft.setTextColor(textColor, backgroundColor);
-    tft.println(SCREEN_REF_PWR);
+    tft.println(SCREEN_VSWR);
     
     while(exit == false){
         monSelected.updateMon();
@@ -117,18 +117,17 @@ void userinterface::dispMonStatus(mon monSelected){
 
         tft.setCursor(15*TEXT_SIZE*6 + 1, tft.getCursorY());
         tft.setTextColor(textColor, backgroundColor);
-        tft.print(monSelected.getSigPwr());
+        tft.print(monSelected.getInputPower());
         tft.println(" dBm  ");
 
         tft.setCursor(15*TEXT_SIZE*6 + 1, tft.getCursorY());
         tft.setTextColor(textColor, backgroundColor);
-        tft.print(monSelected.getFwPwr());
+        tft.print(monSelected.getOutputPower());
         tft.println(" dBm  ");
 
         tft.setCursor(17*TEXT_SIZE*6 + 1, tft.getCursorY());
         tft.setTextColor(textColor, backgroundColor);
-        tft.print(monSelected.getRflPwr());
-        tft.println(" dBm  ");
+        tft.println(monSelected.getVSWR());
 
         probeTouch();
         if(isTouching()){
