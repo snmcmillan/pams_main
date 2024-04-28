@@ -1,7 +1,7 @@
 #ifndef MON_H
 #define MON_H
 
-#include "definitions/hwdefs.h"
+#include "defs/hwdefs.h"
 
 #if DEMO == 0
     #include <SoftwareSerial.h>

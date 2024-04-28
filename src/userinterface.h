@@ -1,9 +1,9 @@
 
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
-#include "definitions/hwdefs.h"
-#include "definitions/colordefs.h"
-#include "definitions/text.h"
+#include "defs/hwdefs.h"
+#include "defs/colordefs.h"
+#include "defs/text.h"
 
 #include <Adafruit_GFX.h>    // Core graphics library
 #if SPI_MODE == 1
