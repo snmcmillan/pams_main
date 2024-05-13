@@ -35,7 +35,6 @@
 #define STATUS_GOOD "Good"
 #define STATUS_WARN "Warning"
 #define STATUS_CRIT "Critical"
-#define STATUS_FAILURE "Failure"
 #define STATUS_OFF "Off"
 
 //Temperature Reading Statuses
@@ -43,6 +42,7 @@
 #define STATUS_TEMP_HIGH "Power Amplifier is too hot."
 #define STATUS_TEMP_SHUTOFF_RUNAWAY "Power Amplifier was shut off due to thermal runaway being detected."
 #define STATUS_TEMP_SHUTOFF_OVERHEAT "Power Amplifier was shut off due to the temperature being too high. Wait for it to cool down."
+
 
 //Current Reading Statuses
 

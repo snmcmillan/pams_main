@@ -1,7 +1,7 @@
 /**
  * @file swdefs.h
  * @author Sebastian McMillan
- * @brief Software Configuration Definitions
+ * @brief Software Configuration Definitions. These should not be modified unless you know what you're doing.
 */
 
 #ifndef SWDEFS_H

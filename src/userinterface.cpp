@@ -73,61 +73,82 @@ void userinterface::displayMenu(){
 
 void userinterface::dispMonStatus(mon monSelected){
     bool exit = false;
+    uint16_t statColor = GREEN;
 
+    
     tft.setTextSize(HEADING_SIZE);
-    tft.setCursor(1,1);
+    tft.setCursor(0,0);
     tft.setTextColor(textColor, backgroundColor);
     tft.print(monSelected.getMonName());
 
     tft.setTextSize(TEXT_SIZE);
     tft.setCursor(1,(HEADING_SIZE*8) + 4);
-    tft.setTextColor(textColor, backgroundColor);
-    tft.println(SCREEN_TEMPERATURE); //Length = 13
-    
-    //tft.setCursor(1,tft.getCursorY() + 1);
-    tft.setTextColor(textColor, backgroundColor);
+    tft.println(SCREEN_TEMPERATURE);
     tft.println(SCREEN_CURRENT);
-    
-
-    //tft.setCursor(1,tft.getCursorY() + 1);
-    tft.setTextColor(textColor, backgroundColor);
     tft.println(SCREEN_SIGNAL_PWR);
-
-    //tft.setCursor(1,tft.getCursorY() + 1);
-    tft.setTextColor(textColor, backgroundColor);
     tft.println(SCREEN_FOR_PWR);
-    
-    //tft.setCursor(1,tft.getCursorY() + 1);
-    tft.setTextColor(textColor, backgroundColor);
     tft.println(SCREEN_VSWR);
+    tft.println(STATUS);
+
+
     
     while(exit == false){
         monSelected.updateMon();
-
-        tft.setCursor(13*TEXT_SIZE*6, (8*HEADING_SIZE) + 4);
-        tft.setTextColor(textColor, backgroundColor);
+        
+        if(monSelected.getThermalState() == 1)
+            statColor = TXT_COLOR_WARN;
+        else if(monSelected.getThermalState() > 1)
+            statColor = TXT_COLOR_CRIT;
+        else statColor = TXT_COLOR_GOOD;
+        tft.setCursor(sizeof(SCREEN_TEMPERATURE)*TEXT_SIZE*6, (8*HEADING_SIZE) + 4);
+        tft.setTextColor(statColor, backgroundColor);
         tft.print(monSelected.getTemperature());
         tft.write(0xF8);
         tft.println("C  ");
 
-        tft.setCursor(16*TEXT_SIZE*6 + 1, tft.getCursorY());
+        
+        tft.setCursor(sizeof(SCREEN_CURRENT)*TEXT_SIZE*6, tft.getCursorY());
         tft.setTextColor(textColor, backgroundColor);
         tft.print(monSelected.getCurrent());
         tft.println(" A  ");
 
-        tft.setCursor(15*TEXT_SIZE*6 + 1, tft.getCursorY());
-        tft.setTextColor(textColor, backgroundColor);
+        if(monSelected.getInputState())
+            statColor = TXT_COLOR_CRIT;
+        else statColor = TXT_COLOR_GOOD;
+        tft.setCursor(sizeof(SCREEN_SIGNAL_PWR)*TEXT_SIZE*6, tft.getCursorY());
+        tft.setTextColor(statColor, backgroundColor);
         tft.print(monSelected.getInputPower());
         tft.println(" dBm  ");
 
-        tft.setCursor(15*TEXT_SIZE*6 + 1, tft.getCursorY());
+        tft.setCursor(sizeof(SCREEN_FOR_PWR)*TEXT_SIZE*6, tft.getCursorY());
         tft.setTextColor(textColor, backgroundColor);
         tft.print(monSelected.getOutputPower());
         tft.println(" dBm  ");
 
-        tft.setCursor(17*TEXT_SIZE*6 + 1, tft.getCursorY());
-        tft.setTextColor(textColor, backgroundColor);
-        tft.println(monSelected.getVSWR());
+
+        if(monSelected.getVSWRState() == 1)
+            statColor = TXT_COLOR_WARN;
+        else if(monSelected.getVSWRState() == 2)
+            statColor = TXT_COLOR_CRIT;
+        else statColor = TXT_COLOR_GOOD;
+        tft.setCursor(sizeof(SCREEN_VSWR)*TEXT_SIZE*6 + 1, tft.getCursorY());
+        tft.setTextColor(statColor, backgroundColor);
+        tft.print(monSelected.getVSWR());
+        tft.println("   ");
+
+        tft.setCursor(sizeof(STATUS)*TEXT_SIZE*6, tft.getCursorY());
+        if(monSelected.getVSWRState() == 2 || monSelected.getThermalState() > 1 || monSelected.getInputState()){
+            tft.setTextColor(TXT_COLOR_CRIT, backgroundColor);
+            tft.println(STATUS_CRIT);
+        }
+        else if(monSelected.getVSWRState() == 1 || monSelected.getThermalState() == 1){
+            tft.setTextColor(TXT_COLOR_WARN, backgroundColor);
+            tft.println(STATUS_WARN);
+        }
+        else{
+            tft.setTextColor(TXT_COLOR_GOOD, backgroundColor);
+            tft.println(STATUS_GOOD);
+        }
 
         probeTouch();
         if(isTouching()){

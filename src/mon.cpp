@@ -8,9 +8,9 @@ void mon::updateMon(){
     #if DEMO == 1
         temperature = (float) (rand()%10000) / 100;
         current = (float) (rand()%1000) / 100;
-        forwardPower = (float) (rand()%1000) / 100;
-        reflectedPower = (float) (rand()%1000) / 100;
         signalPower = (float) (rand()%1000) / 100;
+        forwardPower = (float) (rand()%1000) / 100;
+        VSWR = (float) (rand()%1000) / 100;
     #else
         monSerial.listen();
         acknowledgeMon(23);
@@ -20,6 +20,9 @@ void mon::updateMon(){
         inputPower = monSerial.parseFloat();
         outputPower = monSerial.parseFloat();
         VSWR = monSerial.parseFloat();
+        thermalState = monSerial.parseInt();
+        inputState = monSerial.parseInt();
+        vswrState = monSerial.parseInt();
     #endif
 }
 
@@ -37,6 +40,7 @@ void mon::monInit(){
     }
     monName = monSerial.readStringUntil('\n');
     acknowledgeMon(20);
+    //updateMon();
 }
 
 /**

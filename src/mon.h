@@ -36,10 +36,17 @@ class mon{
     float getOutputPower(){return outputPower;};
     float getVSWR(){return VSWR;};
     float getInputPower(){return inputPower;};
+
+    unsigned short getThermalState(){return thermalState;};
+    bool getInputState(){return inputState;};
+    unsigned short getVSWRState(){return vswrState;};
+    bool getOverdriveState(){return overdriveState;};
+
     String getMonName(){return monName;};
     
     private:
-    //These are the sensor data readings.
+    //These the readings we need to display to the user
+
     float temperature = 0;
     float current = 0;
     float inputPower = 0;
@@ -47,17 +54,39 @@ class mon{
     float VSWR = 0;
 
     /**
-     * Action Statuses
+     * Thermal Status Codes
      * 
-     * Temperature, input power, and VSWR are actively monitored, 
-     * and will trigger a shutoff in wrong conditions.
+     * 0: Temperature OK
+     * 1: Temperature Warning
+     * 2: Temperature Critical - Maximum Reached
+     * 3: Temperature Critical - Above Warning Threshold for too long.
+     * 4: Thermal Runaway Detected 
+     * Conditions 2, 3, and 4 are critical.
     */
-    
+    unsigned short thermalState = 0;
+
+    /**
+     * Input Power Status Code
+     * 
+     * 0 / False: Input Power OK
+     * 1 / True: Input Power Critical
+    */
+    bool inputState = false;
+
+    /**
+     * VSWR Status Code
+     * 0: VSWR Acceptable
+     * 1: VSWR Above Warning
+     * 2: VSWR Too High - trigger overdrive switch
+    */
+    unsigned short vswrState = false;
+
+    bool overdriveState = false;   
 
     
     String monName = "";
     #if DEMO == 0
-        //If we are running in head unitproduction mode, the serial interface is created.
+        //If we are running in head unit production mode, the serial interface is created.
         SoftwareSerial monSerial; 
     #endif
 
